@@ -33,4 +33,9 @@ module TimesPeople
 	# This error is thrown for general connection errors to the API server.
 	class ConnectionError < Error
 	end
+	
+	##
+	# This error is thrown if the User was not found
+	class UserNotFoundError < Error
+	end
 end

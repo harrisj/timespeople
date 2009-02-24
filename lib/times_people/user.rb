@@ -16,9 +16,12 @@ module TimesPeople
 		# http://api.nytimes.com/svc/timespeople/api/{version}/user/{hash}/id{.response-format}?api-key={your-API-key}
 		def self.find(email_addr)
 			digest = Digest::MD5.hexdigest(email_addr.downcase)
-			reply = invoke("user/#{digest}/id")
 			
-			puts reply.inspect
+			begin
+				reply = invoke("user/#{digest}/id")
+			rescue ServerError
+				raise UserNotFoundError, "No user with that email address was found in TimesPeople"
+			end
 			
 			# http://api.nytimes.com/svc/timespeople/api/{version}/user/{user-id}/{data-type}{.response-format}?api-key={your-API-key}
 			unless reply['results'].nil? || reply['results']['user_id'].nil?
