@@ -19,6 +19,10 @@ module TimesPeople
 			
 			begin
 				reply = invoke("user/#{digest}/id")
+				if reply.nil?
+					raise UserNotFoundError, "No user with that email address was found in TimesPeople"
+				end
+				
 			rescue ServerError
 				raise UserNotFoundError, "No user with that email address was found in TimesPeople"
 			end
